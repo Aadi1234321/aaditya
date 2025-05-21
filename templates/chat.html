@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat-by-Aaditya</title>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+  <style>
+    /* --- Copy your chat CSS here (from previous answers) --- */
+    body { margin: 0; font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif; height: 100vh; background-color: #111b21; color: #e9edef; overflow: hidden; }
+    .container { display: flex; width: 100vw; height: 100vh; background-color: #111b21; overflow: hidden; font-size: 1em; line-height: 1.5; }
+    .sidebar { width: 340px; background-color: #202c33; border-right: 1px solid #222d34; display: flex; flex-direction: column; color: #fff; font-size: 1em; line-height: 1.5; overflow: hidden; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: width 0.2s; }
+    .chat-header { padding: 18px 20px; background-color: #2a3942; border-bottom: 1px solid #222d34; display: flex; align-items: center; gap: 12px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.08); z-index: 1; font-size: 1.1em; font-weight: 500; color: #e9edef; text-align: left; text-overflow: ellipsis; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: #6bcbef; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2em; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+    .chat-list { flex: 1; overflow-y: auto; background: #111b21; padding: 0 20px; display: flex; flex-direction: column; gap: 8px; font-size: 1em; line-height: 1.5; color: #e9edef; }
+    .chat-list div { padding: 16px 20px; border-bottom: 1px solid #222d34; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background 0.2s; font-size: 1em; line-height: 1.5; color: #e9edef; text-align: left; }
+    .chat-list div:hover, .chat-list .active { background-color: #222d34; color: #fff; font-weight: 500; font-size: 1.1em; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-radius: 8px; transition: background 0.2s; }
+    .chat-window { flex: 1; display: flex; flex-direction: column; background-image: url('https://web.whatsapp.com/img/bg-chat-tile_7b705cb1c2ef3d06efba.png'); background-repeat: repeat; background-position: center; background-size: auto; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: width 0.2s; background-color: #111b21; color: #e9edef; font-size: 1em; line-height: 1.5; overflow-y: hidden; padding: 0 20px; }
+    .chat-header .chat-title { font-weight: 500; font-size: 1.1em; color: #e9edef; text-align: left; text-overflow: ellipsis; overflow: hidden; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 32px 40px 24px 40px; display: flex; flex-direction: column; gap: 8px; background-color: #111b21; color: #e9edef; font-size: 1em; line-height: 1.5; position: relative; box-sizing: border-box; }
+    .message { position: relative; margin-bottom: 2px; padding: 10px 16px 22px 16px; border-radius: 8px; max-width: 60%; word-wrap: break-word; font-size: 1.05em; box-shadow: 0 1px 1.5px rgba(0,0,0,0.04); min-width: 80px; transition: background 0.2s; }
+    .outgoing { background-color: #005c4b; color: #e9edef; align-self: flex-end; border-bottom-right-radius: 2px; text-align: right; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .incoming { background-color: #202c33; color: #e9edef; align-self: flex-start; border-bottom-left-radius: 2px; text-align: left; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .meta { position: absolute; bottom: 4px; right: 12px; font-size: 0.72em; color: #b6b9bb; opacity: 0.8; text-align: right; min-width: 60px; }
+    .incoming .meta { left: 12px; right: auto; text-align: left; }
+    .chat-input { display: flex; padding: 14px 24px; background-color: #202c33; border-top: 1px solid #222d34; align-items: center; gap: 10px; }
+    .chat-input input { flex: 1; padding: 12px 18px; border-radius: 24px; border: none; outline: none; font-size: 1em; background: #2a3942; color: #e9edef; transition: background 0.2s; }
+    .chat-input input:focus { background: #222d34; }
+    .chat-input button { padding: 0; width: 44px; height: 44px; border: none; background-color: #005c4b; color: #fff; border-radius: 50%; cursor: pointer; font-size: 1.3em; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .chat-input button:hover { background-color: #008069; }
+    ::-webkit-scrollbar { width: 8px; background: #111b21; }
+    ::-webkit-scrollbar-thumb { background: #222d34; border-radius: 4px; }
+    .outgoing::after { content: ""; position: absolute; right: -8px; bottom: 0; width: 0; height: 0; border-top: 8px solid #005c4b; border-left: 8px solid transparent; border-radius: 2px; }
+    .incoming::after { content: ""; position: absolute; left: -8px; bottom: 0; width: 0; height: 0; border-top: 8px solid #202c33; border-right: 8px solid transparent; border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="chat-header">
+        <div class="avatar" id="sidebar-avatar">{{ username[0]|upper }}</div>
+        <span class="chat-title" id="sidebar-username">{{ username }}</span>
+      </div>
+      <div class="chat-list" id="userList"></div>
+    </div>
+    <div class="chat-window">
+      <div class="chat-header">
+        <div class="avatar" id="chat-avatar">?</div>
+        <span class="chat-title" id="chat-with">Select a user</span>
+      </div>
+      <div class="chat-messages" id="messages"></div>
+      <div class="chat-input" id="chatInputArea">
+        <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" />
+        <button onclick="sendMessage()">&#10148;</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <script>
+    let username = "{{ username }}";
+    let currentChat = null;
+    let socket = io();
+
+    document.getElementById("sidebar-username").innerText = username;
+    document.getElementById("sidebar-avatar").innerText = username[0].toUpperCase();
+
+    document.getElementById("chatInputArea").style.display = "none";
+
+    socket.emit('join', username);
+
+    socket.on('users', (users) => {
+      updateUserList(users);
+    });
+
+    socket.on('message', (data) => {
+      const { from, message, time } = data;
+      const msgDiv = document.createElement("div");
+      msgDiv.className = "message " + (from === username ? "outgoing" : "incoming");
+      msgDiv.innerText = message;
+
+      const meta = document.createElement("span");
+      meta.className = "meta";
+      meta.innerText = from + " • " + time;
+      msgDiv.appendChild(meta);
+
+      document.getElementById("messages").appendChild(msgDiv);
+      scrollMessagesToBottom();
+    });
+
+    function updateUserList(users) {
+      const userListEl = document.getElementById("userList");
+      userListEl.innerHTML = "";
+
+      users.forEach(user => {
+        if (user !== username) {
+          const div = document.createElement("div");
+          div.textContent = user;
+          div.onclick = () => selectChat(user);
+          div.className = (user === currentChat) ? "active" : "";
+          const avatar = document.createElement("div");
+          avatar.className = "avatar";
+          avatar.innerText = user[0].toUpperCase();
+          div.prepend(avatar);
+          userListEl.appendChild(div);
+        }
+      });
+    }
+
+    function selectChat(user) {
+      currentChat = user;
+      document.getElementById("chat-with").innerText = user;
+      document.getElementById("chat-avatar").innerText = user[0].toUpperCase();
+      document.getElementById("messages").innerHTML = "";
+      document.getElementById("chatInputArea").style.display = "flex";
+
+      Array.from(document.getElementById("userList").children).forEach(div => {
+        div.classList.toggle("active", div.textContent.trim() === user);
+      });
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const message = input.value.trim();
+
+      if (message && currentChat) {
+        socket.emit('private_message', {
+          from: username,
+          to: currentChat,
+          message
+        });
+        input.value = "";
+      }
+    }
+
+    document.getElementById("messageInput").addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function scrollMessagesToBottom() {
+      const msgBox = document.getElementById("messages");
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
