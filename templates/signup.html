@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Signup - Chat-by-Aaditya</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #111b21; color: #e9edef; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;}
+    .container { background: #202c33; padding: 20px 30px; border-radius: 8px; }
+    input, button { margin: 8px 0; padding: 12px; width: 100%; border-radius: 4px; border: none; font-size: 1em;}
+    button { background-color: #005c4b; color: white; cursor: pointer; }
+    .error { color: #ff6b6b; margin: 12px 0 0; }
+    a { color: #8ab4f8; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+    <form method="POST" action="/signup">
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Create Account</button>
+    </form>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+  </div>
+</body>
+</html>
