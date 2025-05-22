@@ -25,22 +25,5 @@
     {% endif %}
     <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
   </div>
-  <!DOCTYPE html>
-<html>
-<head><title>Sign Up</title></head>
-<body>
-  <h1>Sign Up</h1>
-  {% if error %}
-    <p style="color:red;">{{ error }}</p>
-  {% endif %}
-  <form method="POST">
-    <input type="text" name="username" placeholder="Username" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
-    <button type="submit">Sign Up</button>
-  </form>
-  <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
-</body>
-</html>
-
 </body>
 </html>
