@@ -193,6 +193,32 @@ def handle_stop_typing(data):
     to_user = data['to']
     emit('stop_typing', {'from': from_user}, room=to_user)
 
+@socketio.on('delete_messages')
+def delete_messages(data):
+    """
+    data = {
+        'from': <username>,
+        'to': <username>,
+        'timestamps': [<timestamp1>, <timestamp2>, ...]
+    }
+    """
+    global message_history
+    user1 = data['from']
+    user2 = data['to']
+    timestamps = set(data.get('timestamps', []))
+    key = tuple(sorted([user1, user2]))
+    # Only allow deleting messages sent by the requesting user
+    before_count = len(message_history[key])
+    message_history[key] = [
+        msg for msg in message_history[key]
+        if not (msg['from'] == user1 and msg['time'] in timestamps)
+    ]
+    after_count = len(message_history[key])
+    save_messages()
+    # Notify both users to update their chat history
+    emit('chat_history', message_history[key], room=user1)
+    emit('chat_history', message_history[key], room=user2)
+
 def serialize_users(for_user):
     def last_seen_str(dt):
         if not dt:

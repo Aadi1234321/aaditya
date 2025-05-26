@@ -229,6 +229,24 @@
       background: #222d34;
       border-radius: 4px;
     }
+    .message.selected {
+      outline: 2px solid #ff6b6b;
+      background-color: #2a3942 !important;
+    }
+    #deleteSelectedBtn {
+      display: none;
+      margin: 10px 40px 0 40px;
+      padding: 8px 16px;
+      background: #ff6b6b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    #deleteSelectedBtn.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -237,6 +255,13 @@
       <div class="sidebar-header">
         <div class="avatar" id="myAvatar"></div>
         <span id="myUsername"></span>
+        <a href="/logout" id="logoutBtn" title="Logout" style="margin-left:auto;display:flex;align-items:center;">
+          <!-- Cool logout SVG icon -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="display:block;" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="12" height="16" rx="2" fill="#202c33" stroke="#ff6b6b" stroke-width="2"/>
+            <path d="M16 12h4m0 0l-2-2m2 2l-2 2" stroke="#ff6b6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </div>
       <div id="userList"></div>
     </div>
@@ -245,6 +270,7 @@
         <div class="chat-avatar" id="chatAvatar">?</div>
         <div id="chatWith">Select a user to chat</div>
       </div>
+      <button id="deleteSelectedBtn">Delete Selected</button>
       <div id="messages"></div>
       <div class="chat-input-area" id="chatInputArea" style="display:none;">
         <input id="messageInput" placeholder="Type a message..." autocomplete="off" />
@@ -276,6 +302,62 @@
       if (data.from === currentChatUser || data.from === username || data.to === currentChatUser) {
         addMessageToChat(data.from, data.message, data.time, data.read);
       }
+    });
+
+    // --- Message selection and deletion logic ---
+    let selectedMessages = new Set();
+
+    function addMessageToChat(from, message, time, read) {
+      const messagesEl = document.getElementById("messages");
+      const msgDiv = document.createElement("div");
+      const isOutgoing = from === username;
+      msgDiv.classList.add("message");
+      msgDiv.classList.add(isOutgoing ? "outgoing" : "incoming");
+      msgDiv.dataset.time = time || "";
+      msgDiv.dataset.from = from;
+      // Only allow selection for outgoing messages
+      if (isOutgoing) {
+        msgDiv.addEventListener("click", function (e) {
+          // Prevent selecting when clicking links or text selection
+          if (window.getSelection().toString()) return;
+          msgDiv.classList.toggle("selected");
+          if (msgDiv.classList.contains("selected")) {
+            selectedMessages.add(msgDiv.dataset.time);
+          } else {
+            selectedMessages.delete(msgDiv.dataset.time);
+          }
+          updateDeleteBtn();
+        });
+      }
+      msgDiv.innerHTML = `
+        <div>${escapeHtml(message)}</div>
+        <div class="meta">
+          ${time || ''}
+        </div>
+      `;
+      messagesEl.appendChild(msgDiv);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function updateDeleteBtn() {
+      const btn = document.getElementById("deleteSelectedBtn");
+      if (selectedMessages.size > 0) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    }
+
+    document.getElementById("deleteSelectedBtn").addEventListener("click", function () {
+      if (!currentChatUser || selectedMessages.size === 0) return;
+      if (!confirm("Delete selected messages?")) return;
+      socket.emit('delete_messages', {
+        from: username,
+        to: currentChatUser,
+        timestamps: Array.from(selectedMessages)
+      });
+      selectedMessages.clear();
+      updateDeleteBtn();
     });
 
     // Helper to add a message to chat window
@@ -361,6 +443,8 @@
     // Receive chat history from server
     socket.on('chat_history', history => {
       clearMessages();
+      selectedMessages.clear();
+      updateDeleteBtn();
       history.forEach(msg => {
         addMessageToChat(msg.from, msg.message, msg.time, msg.read);
       });
