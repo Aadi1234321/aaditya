@@ -4,29 +4,114 @@
   <meta charset="UTF-8" />
   <title>Signup - Chat-by-Aaditya</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #111b21; color: #e9edef; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;}
-    .container { background: #202c33; padding: 20px 30px; border-radius: 8px; }
-    input, button { margin: 8px 0; padding: 12px; width: 100%; border-radius: 4px; border: none; font-size: 1em;}
-    button { background-color: #005c4b; color: white; cursor: pointer; }
-    .error { color: #ff6b6b; margin: 12px 0 0; }
-    a { color: #8ab4f8; text-decoration: none; }
+    body {
+      font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+      background-color: #111b21;
+      color: #e9edef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #202c33;
+      padding: 36px 40px 28px 40px;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px 0 #0006;
+      min-width: 340px;
+      max-width: 95vw;
+      border: 2px solid #25d366;
+    }
+    .whatsapp-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .whatsapp-logo svg {
+      width: 48px;
+      height: 48px;
+      display: block;
+    }
+    h2 {
+      text-align: center;
+      color: #25d366;
+      margin-bottom: 24px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    input, button {
+      padding: 14px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      background: #2a3942;
+      color: #e9edef;
+      transition: background 0.2s;
+    }
+    input {
+      border: 2px solid #222d34;
+      box-sizing: border-box;
+    }
+    input:focus {
+      border: 2px solid #25d366;
+      background: #222d34;
+      outline: none;
+    }
+    button {
+      background-color: #25d366;
+      color: #111b21;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #128c7e;
+      color: #fff;
+    }
+    .error {
+      color: #ff6b6b;
+      margin: 12px 0 0;
+      text-align: center;
+    }
+    a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+    .footer-link {
+      text-align: center;
+      margin-top: 18px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Sign Up</h2>
+    <div class="whatsapp-logo">
+      <svg viewBox="0 0 48 48"><g><circle fill="#25d366" cx="24" cy="24" r="24"/><path fill="#fff" d="M36.1 32.2c-.5-.2-2.9-1.4-3.3-1.6-.4-.2-.7-.2-1 .2-.3.4-1.1 1.6-1.4 1.9-.3.3-.5.4-1 .1-.5-.2-2.1-.8-4-2.6-1.5-1.3-2.6-2.9-2.9-3.4-.3-.5 0-.7.2-.9.2-.2.5-.6.7-.9.2-.3.2-.5.3-.8.1-.3 0-.6-.1-.8-.1-.2-1-2.4-1.4-3.3-.4-.9-.7-.8-1-.8-.3 0-.6 0-.9 0-.3 0-.8.1-1.2.6-.4.5-1.6 1.6-1.6 3.8 0 2.2 1.6 4.3 1.8 4.6.2.3 3.1 4.7 7.6 6.3.8.3 1.4.5 1.9.6.8.2 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.6.3-.8.3-1.5.2-1.6z"/></g></svg>
+    </div>
+    <h2>Create your account</h2>
     <form method="POST" action="/signup">
       <input type="text" name="nickname" placeholder="Nickname (optional)" />
       <input type="email" name="email" placeholder="Email" required />
       <input type="text" name="name" placeholder="Full Name" required />
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="password" name="password" placeholder="Password" required />
+      <input type="text" name="mobile" placeholder="Mobile Number" pattern="[0-9]{10,15}" title="Enter a valid mobile number" required />
+      <input type="text" name="username" placeholder="Username" required autocomplete="username" />
+      <input type="password" name="password" placeholder="Password" required autocomplete="new-password" minlength="6" />
       <button type="submit">Create Account</button>
     </form>
     {% if error %}
       <p class="error">{{ error }}</p>
     {% endif %}
-    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    <div class="footer-link">
+      Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+    </div>
   </div>
 </body>
 </html>
