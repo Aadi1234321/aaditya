@@ -285,14 +285,10 @@
       const isOutgoing = from === username;
       msgDiv.classList.add("message");
       msgDiv.classList.add(isOutgoing ? "outgoing" : "incoming");
-      if (!isOutgoing && read === false) {
-        msgDiv.style.backgroundColor = "#3a4a54";
-      }
       msgDiv.innerHTML = `
         <div>${escapeHtml(message)}</div>
         <div class="meta">
           ${time || ''}
-          ${!isOutgoing && read === false ? '<span style="color:#ff6b6b;font-size:0.8em;margin-left:8px;">unread</span>' : ''}
         </div>
       `;
       messagesEl.appendChild(msgDiv);
