@@ -274,19 +274,26 @@
     // Listen for incoming private messages
     socket.on('private_message', data => {
       if (data.from === currentChatUser || data.from === username || data.to === currentChatUser) {
-        addMessageToChat(data.from, data.message, data.time);
+        addMessageToChat(data.from, data.message, data.time, data.read);
       }
     });
 
     // Helper to add a message to chat window
-    function addMessageToChat(from, message, time) {
+    function addMessageToChat(from, message, time, read) {
       const messagesEl = document.getElementById("messages");
       const msgDiv = document.createElement("div");
+      const isOutgoing = from === username;
       msgDiv.classList.add("message");
-      msgDiv.classList.add(from === username ? "outgoing" : "incoming");
+      msgDiv.classList.add(isOutgoing ? "outgoing" : "incoming");
+      if (!isOutgoing && read === false) {
+        msgDiv.style.backgroundColor = "#3a4a54";
+      }
       msgDiv.innerHTML = `
         <div>${escapeHtml(message)}</div>
-        <div class="meta">${time || ''}</div>
+        <div class="meta">
+          ${time || ''}
+          ${!isOutgoing && read === false ? '<span style="color:#ff6b6b;font-size:0.8em;margin-left:8px;">unread</span>' : ''}
+        </div>
       `;
       messagesEl.appendChild(msgDiv);
       messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -359,7 +366,7 @@
     socket.on('chat_history', history => {
       clearMessages();
       history.forEach(msg => {
-        addMessageToChat(msg.from, msg.message, msg.time);
+        addMessageToChat(msg.from, msg.message, msg.time, msg.read);
       });
     });
 

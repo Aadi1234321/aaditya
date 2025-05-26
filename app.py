@@ -156,11 +156,12 @@ def handle_private_message(data):
     timestamp = datetime.now(timezone.utc).strftime("%H:%M")
 
     key = tuple(sorted([from_user, to_user]))
-    message_history[key].append({'from': from_user, 'message': message, 'time': timestamp})
+    # Mark message as unread for the recipient
+    message_history[key].append({'from': from_user, 'message': message, 'time': timestamp, 'read': False})
     save_messages()
 
-    emit('private_message', {'from': from_user, 'message': message, 'time': timestamp}, room=to_user)
-    emit('private_message', {'from': from_user, 'message': message, 'time': timestamp}, room=from_user)
+    emit('private_message', {'from': from_user, 'message': message, 'time': timestamp, 'read': False}, room=to_user)
+    emit('private_message', {'from': from_user, 'message': message, 'time': timestamp, 'read': True}, room=from_user)
 
     if to_user != from_user:
         unread_count[to_user][from_user] += 1   
@@ -171,9 +172,13 @@ def send_history(data):
     user1 = data['from']
     user2 = data['to']
     key = tuple(sorted([user1, user2]))
+    # Mark all messages from user2 to user1 as read
+    for msg in message_history[key]:
+        if msg['from'] == user2:
+            msg['read'] = True
+    save_messages()
     history = message_history[key]
     emit('chat_history', history)
-    # Reset unread count for user1 (the one requesting history) from user2
     unread_count[user1][user2] = 0
 
 @socketio.on('typing')
