@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<!-- filepath: c:\Users\aadit\.vscode\new_chat\templates\status.html -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Status - Chat-by-Aaditya</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+      background: #111b21;
+      color: #e9edef;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wa-status-container {
+      margin: 32px auto;
+      background: #202c33;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px #0008;
+      padding: 0;
+      max-width: 420px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      overflow: hidden;
+    }
+    .wa-status-header {
+      background: linear-gradient(90deg, #128c7e 0%, #075e54 100%);
+      color: #e9edef;
+      font-size: 1.3em;
+      font-weight: 700;
+      padding: 18px 24px;
+      border-bottom: 1.5px solid #25d366;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .wa-status-header .wa-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6bcbef 0%, #25d366 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.3em;
+      color: white;
+      user-select: none;
+      overflow: hidden;
+      border: 2px solid #25d366;
+      margin-right: 10px;
+    }
+    .wa-status-header .wa-add-btn {
+      margin-left: auto;
+      background: #25d366;
+      color: #111b21;
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 1.5em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .wa-status-header .wa-add-btn:hover {
+      background: #128c7e;
+      color: #fff;
+    }
+    .wa-status-form {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      background: #1e2c2f;
+      padding: 18px 24px;
+      border-bottom: 1.5px solid #25d366;
+    }
+    .wa-status-form.active {
+      display: flex;
+    }
+    .wa-status-form input[type="file"] {
+      color: #e9edef;
+      background: #2a3942;
+      border: 1px solid #25d366;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .wa-status-form input[type="text"] {
+      color: #e9edef;
+      background: #2a3942;
+      border: 1px solid #25d366;
+      border-radius: 8px;
+      padding: 8px;
+      width: 220px;
+    }
+    .wa-status-form button {
+      background: #25d366;
+      color: #111b21;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.2s;
+    }
+    .wa-status-form button:hover {
+      background: #128c7e;
+      color: #fff;
+    }
+    .wa-status-section-title {
+      color: #25d366;
+      font-size: 1.05em;
+      font-weight: 600;
+      padding: 12px 24px 6px 24px;
+      background: #202c33;
+      border-bottom: 1px solid #233138;
+      letter-spacing: 0.5px;
+    }
+    .wa-status-list {
+      width: 100%;
+      background: #1e2c2f;
+      border-radius: 0 0 12px 12px;
+      border-top: 1.5px solid #25d366;
+      box-shadow: 0 2px 8px #25d36633;
+      padding: 0;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .wa-status-list-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      cursor: pointer;
+      border-bottom: 1px solid #233138;
+      transition: background 0.18s;
+      background: transparent;
+    }
+    .wa-status-list-item:last-child {
+      border-bottom: none;
+    }
+    .wa-status-list-item:hover {
+      background: #233138;
+    }
+    .wa-status-list-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid #25d366;
+      object-fit: cover;
+      background: #6bcbef;
+      box-shadow: 0 1px 4px #0003;
+    }
+    .wa-status-list-nickname {
+      color: #e9edef;
+      font-weight: 500;
+      font-size: 1em;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .wa-status-list-time {
+      color: #b6b9bb;
+      font-size: 0.9em;
+      margin-left: 8px;
+      flex-shrink: 0;
+    }
+    .wa-status-viewer {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 18px;
+      width: 100%;
+      background: #111b21;
+      border-radius: 0 0 18px 18px;
+      padding: 18px 0 0 0;
+    }
+    .wa-status-viewer.active {
+      display: flex;
+    }
+    .wa-status-viewer-nickname {
+      color: #e9edef;
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .wa-status-viewer-media {
+      max-width: 320px;
+      max-height: 320px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      display: none;
+      background: #111b21;
+      border: 2px solid #25d366;
+      box-shadow: 0 2px 8px #25d36633;
+    }
+    .wa-status-viewer-video {
+      max-width: 320px;
+      max-height: 320px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      display: none;
+      background: #111b21;
+      border: 2px solid #25d366;
+      box-shadow: 0 2px 8px #25d36633;
+    }
+    .wa-status-viewer-text {
+      color: #e9edef;
+      font-size: 1.1em;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .wa-status-viewer-time {
+      color: #b6b9bb;
+      font-size: 0.95em;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .wa-status-viewer-nav {
+      display: flex;
+      gap: 18px;
+      margin-top: 10px;
+    }
+    .wa-status-viewer-nav button {
+      background: none;
+      border: none;
+      color: #25d366;
+      font-size: 2em;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .wa-status-viewer-nav button:hover {
+      color: #128c7e;
+    }
+    .error-msg {
+      color: #ff6b6b;
+      margin-bottom: 10px;
+      font-size: 1em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wa-status-container">
+    <div class="wa-status-header">
+      <div class="wa-avatar" id="waMyAvatar"></div>
+      <span id="waMyName">{{ username }}</span>
+      <button class="wa-add-btn" id="waAddStatusBtn" title="Add Status">+</button>
+    </div>
+    {% if error %}
+      <div class="error-msg">{{ error }}</div>
+    {% endif %}
+    <form class="wa-status-form" id="waStatusForm" method="post" enctype="multipart/form-data">
+      <input type="file" name="status_media" accept="image/*,video/*">
+      <input type="text" name="status_text" maxlength="120" placeholder="Type a status...">
+      <button type="submit">Upload Status</button>
+    </form>
+    <div class="wa-status-section-title">My Status</div>
+    <div id="waMyStatusList" class="wa-status-list"></div>
+    <div class="wa-status-section-title">Recent updates</div>
+    <div id="waStatusList" class="wa-status-list"></div>
+    <div id="waStatusViewer" class="wa-status-viewer">
+      <div id="waStatusViewerNickname" class="wa-status-viewer-nickname"></div>
+      <img id="waStatusViewerMedia" class="wa-status-viewer-media" src="" alt="Status Media">
+      <video id="waStatusViewerVideo" class="wa-status-viewer-video" controls></video>
+      <div id="waStatusViewerText" class="wa-status-viewer-text"></div>
+      <div id="waStatusViewerTime" class="wa-status-viewer-time"></div>
+      <div class="wa-status-viewer-nav">
+        <button id="waPrevStatusBtn">&#8592;</button>
+        <button id="waNextStatusBtn">&#8594;</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Set my avatar (first letter)
+    document.getElementById("waMyAvatar").textContent = "{{ username[0]|upper }}";
+
+    // Show/hide status form
+    const waAddStatusBtn = document.getElementById("waAddStatusBtn");
+    const waStatusForm = document.getElementById("waStatusForm");
+    waAddStatusBtn.onclick = () => {
+      waStatusForm.classList.toggle("active");
+    };
+
+    // Use server-rendered statuses for initial load
+    const myStatus = {{ my_status|tojson }};
+    const allStatuses = {{ statuses|tojson }};
+    let currentStatusIndex = 0;
+    let currentList = [];
+
+    function renderStatusList() {
+      // My status
+      const myStatusList = document.getElementById("waMyStatusList");
+      myStatusList.innerHTML = "";
+      if (myStatus && (myStatus.status_url || myStatus.status_text)) {
+        const item = document.createElement("div");
+        item.className = "wa-status-list-item";
+        item.onclick = () => openStatusViewer(0, true);
+
+        const avatar = document.createElement("img");
+        avatar.className = "wa-status-list-avatar";
+        avatar.src = myStatus.avatar_url || "";
+        avatar.alt = myStatus.nickname || myStatus.username;
+
+        const nick = document.createElement("span");
+        nick.className = "wa-status-list-nickname";
+        nick.textContent = myStatus.nickname || myStatus.username;
+
+        const time = document.createElement("span");
+        time.className = "wa-status-list-time";
+        time.textContent = myStatus.timestamp ? new Date(myStatus.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "";
+
+        item.appendChild(avatar);
+        item.appendChild(nick);
+        item.appendChild(time);
+        myStatusList.appendChild(item);
+      }
+
+      // Others' statuses
+      const statusList = document.getElementById("waStatusList");
+      statusList.innerHTML = "";
+      allStatuses.forEach((status, idx) => {
+        if (!status.status_url && !status.status_text) return;
+        const item = document.createElement("div");
+        item.className = "wa-status-list-item";
+        item.onclick = () => openStatusViewer(idx, false);
+
+        const avatar = document.createElement("img");
+        avatar.className = "wa-status-list-avatar";
+        avatar.src = status.avatar_url || "";
+        avatar.alt = status.nickname || status.username;
+
+        const nick = document.createElement("span");
+        nick.className = "wa-status-list-nickname";
+        nick.textContent = status.nickname || status.username;
+
+        const time = document.createElement("span");
+        time.className = "wa-status-list-time";
+        time.textContent = status.timestamp ? new Date(status.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "";
+
+        item.appendChild(avatar);
+        item.appendChild(nick);
+        item.appendChild(time);
+        statusList.appendChild(item);
+      });
+    }
+
+    function openStatusViewer(idx, isMine) {
+      currentStatusIndex = idx;
+      currentList = isMine ? [myStatus] : allStatuses;
+      const status = currentList[currentStatusIndex];
+      document.getElementById("waStatusViewer").classList.add("active");
+      document.getElementById("waStatusViewerNickname").textContent = status.nickname || status.username;
+      document.getElementById("waStatusViewerText").textContent = status.status_text || "";
+      document.getElementById("waStatusViewerTime").textContent = status.timestamp ? "Updated: " + new Date(status.timestamp).toLocaleString() : "";
+      const media = document.getElementById("waStatusViewerMedia");
+      const video = document.getElementById("waStatusViewerVideo");
+      if (status.status_url && status.media_type === "image") {
+        media.src = status.status_url;
+        media.style.display = "block";
+        video.style.display = "none";
+      } else if (status.status_url && status.media_type === "video") {
+        video.src = status.status_url;
+        video.style.display = "block";
+        media.style.display = "none";
+      } else {
+        media.src = "";
+        media.style.display = "none";
+        video.src = "";
+        video.style.display = "none";
+      }
+    }
+
+    document.getElementById("waPrevStatusBtn").onclick = function() {
+      if (currentList.length > 0) {
+        currentStatusIndex = (currentStatusIndex - 1 + currentList.length) % currentList.length;
+        openStatusViewer(currentStatusIndex, currentList === [myStatus]);
+      }
+    };
+    document.getElementById("waNextStatusBtn").onclick = function() {
+      if (currentList.length > 0) {
+        currentStatusIndex = (currentStatusIndex + 1) % currentList.length;
+        openStatusViewer(currentStatusIndex, currentList === [myStatus]);
+      }
+    };
+
+    // Hide viewer when clicking outside
+    document.body.addEventListener("click", function(e) {
+      if (!document.getElementById("waStatusViewer").contains(e.target) && !e.target.classList.contains("wa-status-list-item")) {
+        document.getElementById("waStatusViewer").classList.remove("active");
+      }
+    });
+
+    renderStatusList();
+  </script>
+</body>
+</html>

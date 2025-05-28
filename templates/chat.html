@@ -10,7 +10,7 @@
       margin: 0;
       font-family: "Segoe UI", "Roboto", Arial, sans-serif;
       height: 100vh;
-      background-color: #111b21;
+      background: linear-gradient(135deg, #232526 0%, #25d366 100%);
       color: #e9edef;
       overflow: hidden;
       display: flex;
@@ -18,72 +18,155 @@
     }
     .container {
       display: flex;
-      height: 100vh;
-      width: 100vw;
-      background: #111b21;
+      height: 96vh;
+      width: 96vw;
+      background: rgba(17,27,33,0.97);
+      box-shadow: 0 8px 32px 0 #000a;
+      border-radius: 32px;
+      margin: 2vh auto;
+      overflow: hidden;
+      border: 2.5px solid #25d366;
+      animation: popin 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+      position: relative;
+      transition: transform 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+      backdrop-filter: blur(2px);
     }
     .sidebar {
-      width: 340px;
-      background-color: #202c33;
-      border-right: 1px solid #222d34;
+      width: 260px;
+      min-width: 160px;
+      background: linear-gradient(180deg, #075e54 0%, #202c33 100%);
+      border-right: 2.5px solid #128c7e;
       display: flex;
       flex-direction: column;
       color: #e9edef;
       overflow-y: auto;
-      box-shadow: 2px 0 16px 0 #0004;
+      border-radius: 0;
+      box-shadow: 2px 0 16px 0 #0006;
+      position: relative;
+      z-index: 2;
+      transition: box-shadow 0.2s;
     }
     .sidebar-header {
       display: flex;
-      align-items: center;
-      padding: 18px 22px;
-      border-bottom: 1px solid #222d34;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      padding: 18px 14px 10px 14px;
+      border-bottom: 1px solid #128c7e;
       font-weight: 600;
-      font-size: 1.2em;
-      gap: 12px;
-      background-color: #2a3942;
-      flex-shrink: 0;
-      border-top-left-radius: 16px;
+      font-size: 1.1em;
+      background: linear-gradient(90deg, #128c7e 0%, #075e54 100%);
+      border-radius: 0;
+      box-shadow: 0 2px 8px #0003;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    #statusSlideBtn {
+      width: 100%;
+      background: #232d33;
+      color: #25d366;
+      border: 1.5px solid #25d366;
+      border-radius: 8px;
+      padding: 8px 0;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+      margin-bottom: 8px;
+      margin-top: 6px;
+      transition: background 0.15s, color 0.15s, border 0.15s;
+      box-shadow: 0 2px 8px #25d36622;
+    }
+    #statusSlideBtn:hover, #statusSlideBtn.active {
+      background: #25d366;
+      color: #111b21;
+      border-color: #128c7e;
+    }
+    #chatSearchInput {
+      width: 95%;
+      margin: 8px auto 8px auto;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1.5px solid #25d366;
+      background: #232d33;
+      color: #e9edef;
+      font-size: 1em;
+      outline: none;
+      display: block;
+      box-shadow: 0 2px 8px #25d36622;
+      transition: border 0.15s, background 0.15s;
+    }
+    #chatSearchInput:focus {
+      border: 1.5px solid #128c7e;
+      background: #1e2c2f;
+    }
+    #chatSearchInput::placeholder {
+      color: #b6b9bb;
     }
     .avatar {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background-color: #6bcbef;
+      background: linear-gradient(135deg, #6bcbef 0%, #25d366 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 1.35em;
+      font-size: 1.3em;
       color: white;
       user-select: none;
       overflow: hidden;
+      border: 2px solid #25d366;
+      box-shadow: 0 2px 8px #25d36633;
+      transition: box-shadow 0.2s;
+      animation: pulse 2.5s infinite;
+      margin: 0 auto 4px auto;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
     }
     #userList {
       flex: 1;
       overflow-y: auto;
+      border-top: 1px solid #128c7e;
+      border-bottom: 1px solid #128c7e;
+      background: #1e2c2f;
+      border-radius: 0;
+      margin-bottom: 0;
+      box-shadow: none;
+      padding-top: 8px;
     }
     .user-item {
       display: flex;
       align-items: center;
-      padding: 14px 22px;
+      padding: 10px 14px;
       cursor: pointer;
-      gap: 12px;
-      border-bottom: 1px solid #222d34;
-      transition: background-color 0.2s;
-      border-radius: 0 16px 16px 0;
+      gap: 10px;
+      border-bottom: 1px solid #128c7e;
+      border-radius: 8px;
+      transition: background 0.15s, border 0.15s;
+      background: transparent;
+      font-size: 1em;
+      border: 2px solid #25d366;
+      margin-bottom: 10px;
     }
-    .user-item:hover {
-      background-color: #2f3d46;
+    .user-item:hover, .user-item.active {
+      background: #233138;
+      border-left: 3px solid #25d366;
+      border-color: #128c7e;
     }
-    .user-item.active {
-      background-color: #222d34;
-      font-weight: 600;
+    .user-item:last-child {
+      border-bottom: none;
     }
     .user-avatar {
-      width: 38px;
-      height: 38px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background-color: #008069;
+      background: #25d366;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -93,6 +176,8 @@
       user-select: none;
       flex-shrink: 0;
       overflow: hidden;
+      border: 1.5px solid #25d366;
+      box-shadow: none;
     }
     .user-avatar img {
       width: 100%;
@@ -105,6 +190,10 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 600;
+      color: #e9edef;
+      font-size: 1em;
+      letter-spacing: 0.5px;
     }
     .online-dot {
       width: 10px;
@@ -113,165 +202,223 @@
       background-color: #25d366;
       flex-shrink: 0;
       margin-left: auto;
+      border: 1px solid #202c33;
+      box-shadow: none;
     }
     .chat-window {
       flex: 1;
       display: flex;
       flex-direction: column;
-      background-color: #111b21;
-      background-image: url('https://web.whatsapp.com/img/bg-chat-tile_7b705cb1c2ef3d06efba.png');
-      background-repeat: repeat;
-      background-position: center;
+      background: #232526;
+      background-image: none;
       overflow: hidden;
-      border-top-right-radius: 16px;
-      border-bottom-right-radius: 16px;
+      border-radius: 0;
+      box-shadow: none;
     }
     .chat-header {
       display: flex;
       align-items: center;
-      padding: 18px 28px;
-      background-color: #2a3942;
-      border-bottom: 1px solid #222d34;
+      padding: 14px 20px;
+      background: #128c7e;
+      border-bottom: 1px solid #128c7e;
       gap: 12px;
-      font-weight: 600;
-      font-size: 1.2em;
+      font-weight: 700;
+      font-size: 1.1em;
       color: #e9edef;
       flex-shrink: 0;
-      border-top-right-radius: 16px;
+      border-radius: 0;
+      min-height: 44px;
+      box-shadow: none;
     }
     .chat-avatar {
-      width: 44px;
-      height: 44px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background-color: #6bcbef;
+      background: #25d366;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 1.35em;
+      font-size: 1.2em;
       color: white;
       user-select: none;
       flex-shrink: 0;
       overflow: hidden;
+      border: 1.5px solid #25d366;
+      box-shadow: none;
     }
     #messages {
       flex: 1;
-      padding: 24px 48px;
+      padding: 18px 24px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       font-size: 1em;
+      background: transparent;
     }
     .message {
-      max-width: 60%;
-      padding: 14px 20px;
+      max-width: 80%;
+      padding: 10px 16px;
       border-radius: 12px;
       position: relative;
       word-wrap: break-word;
       font-size: 1em;
-      line-height: 1.4;
+      line-height: 1.5;
       user-select: text;
-      box-shadow: 0 2px 8px 0 #0002;
+      box-shadow: none;
       margin-bottom: 2px;
+      border: none;
+      transition: box-shadow 0.15s, background 0.15s;
     }
     .outgoing {
-      background-color: #005c4b;
+      background: #075e54;
       color: #e9edef;
       margin-left: auto;
       border-bottom-right-radius: 2px;
       text-align: right;
+      border: 1px solid #25d366;
+      box-shadow: none;
     }
     .incoming {
-      background-color: #202c33;
+      background: #202c33;
       color: #e9edef;
       margin-right: auto;
       border-bottom-left-radius: 2px;
       text-align: left;
+      border: 1px solid #202c33;
+      box-shadow: none;
     }
     .message .meta {
-      font-size: 0.75em;
+      font-size: 0.85em;
       color: #b6b9bb;
       margin-top: 6px;
       opacity: 0.8;
       user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 2px;
     }
     .chat-input-area {
       display: flex;
-      padding: 18px 28px;
-      background-color: #202c33;
-      border-top: 1px solid #222d34;
+      padding: 14px 20px;
+      background: #128c7e;
+      border-top: 1px solid #128c7e;
       gap: 10px;
       flex-shrink: 0;
-      border-bottom-right-radius: 16px;
+      border-radius: 0;
+      align-items: center;
+      box-shadow: none;
     }
     #messageInput {
       flex: 1;
-      padding: 14px 20px;
-      border-radius: 24px;
+      padding: 10px 14px;
+      border-radius: 14px;
       border: none;
       outline: none;
       font-size: 1em;
-      background-color: #2a3942;
+      background: #2a3942;
       color: #e9edef;
-      transition: background 0.2s;
+      transition: background 0.15s;
+      border: 1px solid #222d34;
+      box-shadow: none;
     }
     #messageInput::placeholder {
       color: #888f95;
     }
     #messageInput:focus {
-      background-color: #222d34;
-      outline: 2px solid #25d366;
+      background: #222d34;
+      outline: 1.5px solid #25d366;
+      border: 1.5px solid #25d366;
+    }
+    #mediaButton {
+      margin-right: 2px;
+      background: none;
+      border: none;
+      color: #25d366;
+      font-size: 1.3em;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background 0.15s;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: none;
+    }
+    #mediaButton:hover {
+      background: #222d34;
+      color: #128c7e;
     }
     #sendButton {
-      width: 48px;
-      height: 48px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       border: none;
-      background-color: #25d366;
+      background: #25d366;
       color: #111b21;
-      font-size: 1.5em;
+      font-size: 1.3em;
       cursor: pointer;
       user-select: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.2s;
+      transition: background-color 0.15s;
+      box-shadow: none;
     }
     #sendButton:hover {
-      background-color: #128c7e;
+      background: #128c7e;
       color: #fff;
     }
-    /* Scrollbar styling */
+    .message img, .message video {
+      max-width: 160px;
+      max-height: 120px;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: 6px;
+      border: 1px solid #25d366;
+      background: #111b21;
+      box-shadow: none;
+    }
+    .message audio {
+      width: 120px;
+      display: block;
+      margin-bottom: 6px;
+      background: #2a3942;
+      border-radius: 4px;
+      border: 1px solid #128c7e;
+    }
     ::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
       background: #111b21;
     }
     ::-webkit-scrollbar-thumb {
       background: #222d34;
-      border-radius: 4px;
+      border-radius: 3px;
     }
     .message.selected {
-      outline: 2px solid #ff6b6b;
-      background-color: #2a3942 !important;
+      outline: 1.5px solid #ff6b6b;
+      background: #2a3942 !important;
     }
     #deleteSelectedBtn {
       display: none;
-      margin: 10px 48px 0 48px;
-      padding: 10px 18px;
+      margin: 8px 24px 0 24px;
+      padding: 8px 12px;
       background: #ff6b6b;
       color: #fff;
       border: none;
       border-radius: 8px;
       font-size: 1em;
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: 1px;
+      box-shadow: none;
     }
     #deleteSelectedBtn.active {
       display: block;
     }
-    /* Profile Modal WhatsApp style */
     #profileModal {
       background: rgba(0,0,0,0.7);
       align-items: center;
@@ -280,12 +427,15 @@
     }
     #profileModal > div {
       background: #202c33;
-      border-radius: 16px;
-      box-shadow: 0 4px 32px 0 #0006;
+      border-radius: 12px;
+      box-shadow: none;
+      padding: 24px 24px 16px 24px;
+      min-width: 200px;
+      max-width: 95vw;
     }
     .msg-ticks {
       display: inline-block;
-      margin-left: 6px;
+      margin-left: 4px;
       vertical-align: middle;
       font-size: 1em;
       line-height: 1;
@@ -294,12 +444,27 @@
       vertical-align: middle;
       margin-left: -2px;
     }
+    @media (max-width: 900px) {
+      .container { flex-direction: column; width: 100vw; height: 100vh; border-radius: 0; margin: 0; }
+      .sidebar, .chat-window { border-radius: 0; }
+      #messages { padding: 8px 2vw; }
+      .chat-header, .chat-input-area { padding: 8px 2vw; }
+      .sidebar { width: 100vw; min-width: 0; }
+    }
+    @media (max-width: 600px) {
+      .sidebar-header { padding: 10px 4vw 6px 4vw; }
+      .chat-header, .chat-input-area { padding: 8px 2vw; }
+      .container { border-radius: 0; }
+      .chat-window { border-radius: 0; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="mainContainer">
     <div class="sidebar">
       <div class="sidebar-header">
+        <button id="statusSlideBtn" title="View Status">Status</button>
+        <input id="chatSearchInput" type="text" placeholder="Search chats...">
         <div class="avatar" id="myAvatar"></div>
         <span id="myUsername"></span>
         <button id="profileBtn" title="Profile" style="margin-left:10px;background:none;border:none;cursor:pointer;display:flex;align-items:center;">
@@ -308,12 +473,6 @@
             <rect x="4" y="16" width="16" height="4" rx="2" fill="#6bcbef"/>
           </svg>
         </button>
-        <a href="/logout" id="logoutBtn" title="Logout" style="margin-left:auto;display:flex;align-items:center;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="display:block;" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="4" width="12" height="16" rx="2" fill="#202c33" stroke="#ff6b6b" stroke-width="2"/>
-            <path d="M16 12h4m0 0l-2-2m2 2l-2 2" stroke="#ff6b6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
       </div>
       <div id="userList"></div>
     </div>
@@ -323,9 +482,8 @@
           <svg id="chatAvatarLogo" width="44" height="44" viewBox="0 0 40 40" style="display:none;"></svg>
         </div>
         <div id="chatWith" style="flex:1;">
-          <span id="chatWithText" style="font-weight:600;font-size:1.1em;">Select a user to chat</span>
+          <span id="chatWithText" style="font-weight:700;font-size:1.1em;">Select a user to chat</span>
         </div>
-        <!-- Three dots menu -->
         <div style="position:relative;">
           <button id="chatMenuBtn" title="Menu" style="background:none;border:none;cursor:pointer;padding:8px;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -337,6 +495,7 @@
           <div id="chatMenuDropdown" style="display:none;position:absolute;right:0;top:36px;background:#202c33;border-radius:8px;box-shadow:0 2px 8px #0006;min-width:160px;z-index:10;">
             <button id="showRepProfileBtn" style="width:100%;background:none;border:none;color:#25d366;padding:12px 18px;text-align:left;font-size:1em;cursor:pointer;border-radius:8px 8px 0 0;">View Profile</button>
             <button id="deleteAllBtn" style="width:100%;background:none;border:none;color:#ff6b6b;padding:12px 18px;text-align:left;font-size:1em;cursor:pointer;">Delete all messages</button>
+            <a href="/logout" id="logoutBtn" style="width:100%;display:block;background:none;border:none;color:#ff6b6b;padding:12px 18px;text-align:left;font-size:1em;cursor:pointer;text-decoration:none;border-radius:0 0 8px 8px;">Logout</a>
           </div>
         </div>
       </div>
@@ -347,6 +506,28 @@
         <input type="file" id="mediaInput" style="display:none;" />
         <button id="mediaButton" title="Attach media" style="background:none;border:none;cursor:pointer;font-size:1.5em;color:#25d366;">&#128247;</button>
         <button id="sendButton" title="Send message">&#10148;</button>
+      </div>
+    </div>
+    <!-- Status Slide Panel (right side) -->
+    <div id="statusSlidePanel" class="status-slide-panel">
+      <div class="status-slide-header">
+        <span>Status</span>
+        <button class="status-slide-close" id="closeStatusSlidePanelBtn">&times;</button>
+      </div>
+      <div class="status-slide-section-title">My Status</div>
+      <div id="statusSlideMyList" class="status-slide-list"></div>
+      <div class="status-slide-section-title">Recent updates</div>
+      <div id="statusSlideList" class="status-slide-list"></div>
+      <div id="statusSlideViewer" class="status-slide-viewer">
+        <div id="statusSlideViewerNickname" class="status-slide-viewer-nickname"></div>
+        <img id="statusSlideViewerMedia" class="status-slide-viewer-media" src="" alt="Status Media">
+        <video id="statusSlideViewerVideo" class="status-slide-viewer-video" controls></video>
+        <div id="statusSlideViewerText" class="status-slide-viewer-text"></div>
+        <div id="statusSlideViewerTime" class="status-slide-viewer-time"></div>
+        <div class="status-slide-viewer-nav">
+          <button id="statusSlidePrevBtn">&#8592;</button>
+          <button id="statusSlideNextBtn">&#8594;</button>
+        </div>
       </div>
     </div>
   </div>
@@ -376,6 +557,41 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <!-- Status Slide Modal -->
+  <div id="statusSlide">
+    <button id="closeStatusSlide">&times;</button>
+    <div id="statusSlideContent">
+      <img id="statusAvatar" src="" alt="Status Avatar">
+      <img id="statusMedia" src="" alt="Status Media">
+      <div id="statusText"></div>
+      <div id="statusTime"></div>
+      <form id="statusUploadForm" style="display:none;">
+        <input type="file" id="statusMediaInput" accept="image/*,video/*">
+        <input type="text" id="statusTextInput" maxlength="120" placeholder="Type a status...">
+        <button type="submit">Upload Status</button>
+      </form>
+    </div>
+  </div>
+  <!-- WhatsApp-like Status Viewer Slide -->
+  <div id="statusViewerSlide" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2100;background:rgba(17,27,33,0.98);align-items:center;justify-content:center;flex-direction:column;">
+    <button id="closeStatusViewerSlide" style="position:absolute;top:24px;right:36px;background:none;border:none;color:#ff6b6b;font-size:2em;cursor:pointer;z-index:2200;">&times;</button>
+    <div id="statusViewerContent" style="background:#222d34;border-radius:24px;padding:32px 40px;box-shadow:0 4px 32px #0008;display:flex;flex-direction:column;align-items:center;min-width:320px;max-width:90vw;position:relative;">
+      <!-- Add clickable overlays for left/right -->
+      <div class="status-viewer-side left" id="statusViewerPrevArea"></div>
+      <div class="status-viewer-side right" id="statusViewerNextArea"></div>
+      <img id="statusViewerAvatar" src="" alt="Status Avatar" style="width:90px;height:90px;border-radius:50%;background:#6bcbef;object-fit:cover;border:3px solid #25d366;margin-bottom:12px;box-shadow:0 2px 8px #0006;">
+      <div id="statusViewerNickname" style="color:#e9edef;font-size:1.1em;font-weight:600;margin-bottom:8px;"></div>
+      <img id="statusViewerMedia" src="" alt="Status Media" style="max-width:320px;max-height:320px;border-radius:18px;margin-bottom:18px;display:none;background:#111b21;border:2px solid #25d366;box-shadow:0 2px 8px #25d36633;">
+      <video id="statusViewerVideo" controls style="max-width:320px;max-height:320px;border-radius:18px;margin-bottom:18px;display:none;background:#111b21;border:2px solid #25d366;box-shadow:0 2px 8px #25d36633;"></video>
+      <div id="statusViewerText" style="color:#e9edef;font-size:1.1em;text-align:center;margin-bottom:12px;"></div>
+      <div id="statusViewerTime" style="color:#b6b9bb;font-size:0.95em;text-align:center;margin-bottom:4px;"></div>
+      <!-- Remove arrow navigation buttons -->
+      <!-- <div style="display:flex;gap:18px;margin-top:10px;">
+        <button id="prevStatusBtn" ...></button>
+        <button id="nextStatusBtn" ...></button>
+      </div> -->
     </div>
   </div>
   <script>
@@ -914,6 +1130,422 @@
       messagesEl.appendChild(msgDiv);
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
+
+    // Status list logic (WhatsApp-like)
+    const statusList = document.getElementById("statusList");
+    function fetchStatuses() {
+      fetch("/get_statuses")
+        .then(res => res.json())
+        .then(statuses => {
+          statusList.innerHTML = "";
+          statuses.forEach(status => {
+            if (!status.status_url) return;
+            const item = document.createElement("div");
+            item.className = "status-list-item";
+            item.onclick = () => showStatusOfUser(status.username);
+
+            const avatar = document.createElement("img");
+            avatar.className = "status-list-avatar";
+            avatar.src = status.avatar_url || "";
+            avatar.alt = status.nickname || status.username;
+
+            const nick = document.createElement("span");
+            nick.className = "status-list-nickname";
+            nick.textContent = status.nickname || status.username;
+
+            const time = document.createElement("span");
+            time.className = "status-list-time";
+            time.textContent = status.timestamp ? new Date(status.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "";
+
+            item.appendChild(avatar);
+            item.appendChild(nick);
+            item.appendChild(time);
+            statusList.appendChild(item);
+          });
+        });
+    }
+    fetchStatuses();
+    setInterval(fetchStatuses, 20000);
+
+    // Show any user's status in the status slide
+    function showStatusOfUser(username) {
+      fetch(`/get_status/${encodeURIComponent(username)}`)
+        .then(res => res.json())
+        .then(status => {
+          statusAvatar.src = status.avatar_url || "";
+          statusText.textContent = status.status_text || status.nickname || status.username;
+          statusTime.textContent = status.timestamp ? "Updated: " + new Date(status.timestamp).toLocaleString() : "";
+          if (status.status_url && status.media_type === "image") {
+            statusMedia.src = status.status_url;
+            statusMedia.style.display = "block";
+            statusMedia.type = "image";
+            if (statusMedia.tagName !== "IMG") {
+              statusMedia.outerHTML = `<img id="statusMedia" src="${status.status_url}" alt="Status Media" style="max-width:320px;max-height:320px;border-radius:16px;margin-bottom:18px;display:block;background:#111b21;border:2px solid #25d366;">`;
+            }
+          } else if (status.status_url && status.media_type === "video") {
+            statusMedia.outerHTML = `<video id="statusMedia" src="${status.status_url}" controls style="max-width:320px;max-height:320px;border-radius:16px;margin-bottom:18px;display:block;background:#111b21;border:2px solid #25d366;"></video>`;
+          } else {
+            statusMedia.src = "";
+            statusMedia.style.display = "none";
+          }
+          statusUploadForm.style.display = "none";
+          statusSlide.style.display = "flex";
+        });
+    }
+
+    // Upload status handler
+    statusUploadForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const file = statusMediaInput.files[0];
+      const text = statusTextInput.value.trim();
+      const formData = new FormData();
+      if (file) formData.append("status_media", file);
+      formData.append("status_text", text);
+      fetch("/upload_status", { method: "POST", body: formData })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            statusUploadForm.style.display = "none";
+            statusSlide.style.display = "none";
+            statusMediaInput.value = "";
+            statusTextInput.value = "";
+            fetchStatuses();
+          }
+        });
+    });
+
+    closeStatusSlide.addEventListener("click", function() {
+      statusSlide.style.display = "none";
+      statusUploadForm.style.display = "none";
+      statusMediaInput.value = "";
+      statusTextInput.value = "";
+    });
+
+    // WhatsApp-like status viewer slide logic
+    const statusViewerSlide = document.getElementById("statusViewerSlide");
+    const closeStatusViewerSlide = document.getElementById("closeStatusViewerSlide");
+    const statusViewerAvatar = document.getElementById("statusViewerAvatar");
+    const statusViewerNickname = document.getElementById("statusViewerNickname");
+    const statusViewerMedia = document.getElementById("statusViewerMedia");
+    const statusViewerVideo = document.getElementById("statusViewerVideo");
+    const statusViewerText = document.getElementById("statusViewerText");
+    const statusViewerTime = document.getElementById("statusViewerTime");
+    // Remove arrow buttons
+    // const prevStatusBtn = document.getElementById("prevStatusBtn");
+    // const nextStatusBtn = document.getElementById("nextStatusBtn");
+    const statusViewerPrevArea = document.getElementById("statusViewerPrevArea");
+    const statusViewerNextArea = document.getElementById("statusViewerNextArea");
+
+    let allStatuses = [];
+    let currentStatusIndex = 0;
+
+    function openStatusViewer(index) {
+      if (!allStatuses.length) return;
+      currentStatusIndex = index;
+      const status = allStatuses[currentStatusIndex];
+      statusViewerAvatar.src = status.avatar_url || "";
+      statusViewerNickname.textContent = status.nickname || status.username;
+      statusViewerText.textContent = status.status_text || "";
+      statusViewerTime.textContent = status.timestamp ? "Updated: " + new Date(status.timestamp).toLocaleString() : "";
+      if (status.status_url && status.media_type === "image") {
+        statusViewerMedia.src = status.status_url;
+        statusViewerMedia.style.display = "block";
+        statusViewerVideo.style.display = "none";
+      } else if (status.status_url && status.media_type === "video") {
+        statusViewerVideo.src = status.status_url;
+        statusViewerVideo.style.display = "block";
+        statusViewerMedia.style.display = "none";
+      } else {
+        statusViewerMedia.src = "";
+        statusViewerMedia.style.display = "none";
+        statusViewerVideo.src = "";
+        statusViewerVideo.style.display = "none";
+      }
+      statusViewerSlide.style.display = "flex";
+    }
+
+    function fetchAndShowStatuses(startIndex = 0) {
+      fetch("/get_statuses")
+        .then(res => res.json())
+        .then(statuses => {
+          allStatuses = statuses.filter(s => s.status_url);
+          if (allStatuses.length) {
+            openStatusViewer(startIndex);
+          }
+        });
+    }
+
+    // Show status viewer when clicking a status in the list
+    statusList.addEventListener("click", function(e) {
+      const items = Array.from(statusList.getElementsByClassName("status-list-item"));
+      const clicked = items.indexOf(e.target.closest(".status-list-item"));
+      if (clicked !== -1) {
+        fetchAndShowStatuses(clicked);
+      }
+    });
+
+    // WhatsApp-like: change status by clicking left/right side
+    statusViewerPrevArea.onclick = function(e) {
+      if (allStatuses.length) {
+        currentStatusIndex = (currentStatusIndex - 1 + allStatuses.length) % allStatuses.length;
+        openStatusViewer(currentStatusIndex);
+      }
+    };
+    statusViewerNextArea.onclick = function(e) {
+      if (allStatuses.length) {
+        currentStatusIndex = (currentStatusIndex + 1) % allStatuses.length;
+        openStatusViewer(currentStatusIndex);
+      }
+    };
+
+    closeStatusViewerSlide.addEventListener("click", function() {
+      statusViewerSlide.style.display = "none";
+      statusViewerMedia.src = "";
+      statusViewerVideo.src = "";
+    });
+
+    // Show profile avatar in left corner (sidebar)
+    function setMyAvatar(avatarUrl, username) {
+      const myAvatar = document.getElementById("myAvatar");
+      if (avatarUrl) {
+        myAvatar.innerHTML = `<img src="${avatarUrl}" alt="avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      } else {
+        myAvatar.textContent = username[0].toUpperCase();
+      }
+    }
+    // Fetch profile info for avatar on load and after avatar upload
+    function refreshMyAvatar() {
+      fetch('/profile')
+        .then(res => res.json())
+        .then(user => {
+          setMyAvatar(user.avatar_url, user.username);
+        });
+    }
+    refreshMyAvatar();
+
+    // Status slide panel logic
+    const mainContainer = document.getElementById("mainContainer");
+    const openStatusPanelBtn = document.getElementById("openStatusPanelBtn");
+    const closeStatusPanelBtn = document.getElementById("closeStatusSlidePanelBtn");
+    const statusListPanel = document.getElementById("statusListPanel");
+    const statusUploadFormPanel = document.getElementById("statusUploadFormPanel");
+    const statusMediaInputPanel = document.getElementById("statusMediaInputPanel");
+    const statusTextInputPanel = document.getElementById("statusTextInputPanel");
+
+    openStatusPanelBtn.addEventListener("click", function() {
+      mainContainer.classList.add("slide-status");
+      fetchStatusesPanel();
+    });
+    closeStatusPanelBtn.addEventListener("click", function() {
+      mainContainer.classList.remove("slide-status");
+    });
+
+    function fetchStatusesPanel() {
+      fetch("/get_statuses")
+        .then(res => res.json())
+        .then(statuses => {
+          statusListPanel.innerHTML = "";
+          statuses.forEach(status => {
+            if (!status.status_url && !status.status_text) return;
+            const item = document.createElement("div");
+            item.className = "status-list-item";
+            item.onclick = () => showStatusOfUser(status.username);
+
+            const avatar = document.createElement("img");
+            avatar.className = "status-list-avatar";
+            avatar.src = status.avatar_url || "";
+            avatar.alt = status.nickname || status.username;
+
+            const nick = document.createElement("span");
+            nick.className = "status-list-nickname";
+            nick.textContent = status.nickname || status.username;
+
+            const time = document.createElement("span");
+            time.className = "status-list-time";
+            time.textContent = status.timestamp ? new Date(status.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "";
+
+            item.appendChild(avatar);
+            item.appendChild(nick);
+            item.appendChild(time);
+            statusListPanel.appendChild(item);
+          });
+        });
+    }
+
+    // Upload status from panel
+    statusUploadFormPanel.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const file = statusMediaInputPanel.files[0];
+      const text = statusTextInputPanel.value.trim();
+      const formData = new FormData();
+      if (file) formData.append("status_media", file);
+      formData.append("status_text", text);
+      fetch("/upload_status", { method: "POST", body: formData })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            statusUploadFormPanel.reset();
+            fetchStatusesPanel();
+          } else {
+            alert(data.error || "Failed to upload status.");
+          }
+        });
+    });
+
+    // Fix: update avatar in sidebar after avatar upload
+    avatarInput.addEventListener("change", function() {
+      const file = avatarInput.files[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append("avatar", file);
+      fetch("/upload_avatar", { method: "POST", body: formData })
+        .then(res => res.json())
+        .then(data => {
+          if (data.avatar_url) {
+            profileAvatarImg.src = data.avatar_url;
+            refreshMyAvatar();
+          }
+        });
+    });
+    // Status Slide Panel logic
+    const statusSlidePanel = document.getElementById("statusSlidePanel");
+    const closeStatusSlidePanelBtn = document.getElementById("closeStatusSlidePanelBtn");
+    // Add a button to open the status slide (for demo, use keyboard shortcut 's')
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "s" && !statusSlidePanel.classList.contains("active")) {
+        openStatusSlidePanel();
+      }
+    });
+    function openStatusSlidePanel() {
+      statusSlidePanel.classList.add("active");
+      fetchStatusSlideData();
+    }
+    closeStatusSlidePanelBtn.onclick = function() {
+      statusSlidePanel.classList.remove("active");
+    };
+
+    // Fetch and render statuses for the slide
+    let slideMyStatus = null;
+    let slideStatuses = [];
+    function fetchStatusSlideData() {
+      fetch("/get_statuses")
+        .then(res => res.json())
+        .then(statuses => {
+          const username = "{{ username }}";
+          slideMyStatus = null;
+          slideStatuses = [];
+          statuses.forEach(s => {
+            if (s.username === username) slideMyStatus = s;
+            else slideStatuses.push(s);
+          });
+          slideStatuses.sort((a, b) => (b.timestamp || "").localeCompare(a.timestamp || ""));
+          renderStatusSlide();
+        });
+    }
+    function renderStatusSlide() {
+      // My status
+      const myList = document.getElementById("statusSlideMyList");
+      myList.innerHTML = "";
+      if (slideMyStatus && (slideMyStatus.status_url || slideMyStatus.status_text)) {
+        const item = document.createElement("div");
+        item.className = "status-slide-list-item";
+        item.onclick = () => openStatusSlideViewer(0, true);
+
+        const avatar = document.createElement("img");
+        avatar.className = "status-slide-list-avatar";
+        avatar.src = slideMyStatus.avatar_url || "";
+        avatar.alt = slideMyStatus.nickname || slideMyStatus.username;
+
+        const nick = document.createElement("span");
+        nick.className = "status-slide-list-nickname";
+        nick.textContent = slideMyStatus.nickname || slideMyStatus.username;
+
+        const time = document.createElement("span");
+        time.className = "status-slide-list-time";
+        time.textContent = slideMyStatus.timestamp ? new Date(slideMyStatus.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "";
+
+        item.appendChild(avatar);
+        item.appendChild(nick);
+        item.appendChild(time);
+        myList.appendChild(item);
+      }
+      // Others
+      const list = document.getElementById("statusSlideList");
+      list.innerHTML = "";
+      slideStatuses.forEach((status, idx) => {
+        if (!status.status_url && !status.status_text) return;
+        const item = document.createElement("div");
+        item.className = "status-slide-list-item";
+        item.onclick = () => openStatusSlideViewer(idx, false);
+
+        const avatar = document.createElement("img");
+        avatar.className = "status-slide-list-avatar";
+        avatar.src = status.avatar_url || "";
+        avatar.alt = status.nickname || status.username;
+
+        const nick = document.createElement("span");
+        nick.className = "status-slide-list-nickname";
+        nick.textContent = status.nickname || status.username;
+
+        const time = document.createElement("span");
+        time.className = "status-slide-list-time";
+        time.textContent = status.timestamp ? new Date(status.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "";
+
+        item.appendChild(avatar);
+        item.appendChild(nick);
+        item.appendChild(time);
+        list.appendChild(item);
+      });
+    }
+    // Status viewer in slide
+    let slideCurrentStatusIndex = 0;
+    let slideCurrentList = [];
+    function openStatusSlideViewer(idx, isMine) {
+      slideCurrentStatusIndex = idx;
+      slideCurrentList = isMine ? [slideMyStatus] : slideStatuses;
+      const status = slideCurrentList[slideCurrentStatusIndex];
+      document.getElementById("statusSlideViewer").classList.add("active");
+      document.getElementById("statusSlideViewerNickname").textContent = status.nickname || status.username;
+      document.getElementById("statusSlideViewerText").textContent = status.status_text || "";
+      document.getElementById("statusSlideViewerTime").textContent = status.timestamp ? "Updated: " + new Date(status.timestamp).toLocaleString() : "";
+      const media = document.getElementById("statusSlideViewerMedia");
+      const video = document.getElementById("statusSlideViewerVideo");
+      if (status.status_url && status.media_type === "image") {
+        media.src = status.status_url;
+        media.style.display = "block";
+        video.style.display = "none";
+      } else if (status.status_url && status.media_type === "video") {
+        video.src = status.status_url;
+        video.style.display = "block";
+        media.style.display = "none";
+      } else {
+        media.src = "";
+        media.style.display = "none";
+        video.src = "";
+        video.style.display = "none";
+      }
+    }
+    document.getElementById("statusSlidePrevBtn").onclick = function() {
+      if (slideCurrentList.length > 0) {
+        slideCurrentStatusIndex = (slideCurrentStatusIndex - 1 + slideCurrentList.length) % slideCurrentList.length;
+        openStatusSlideViewer(slideCurrentStatusIndex, slideCurrentList === [slideMyStatus]);
+      }
+    };
+    document.getElementById("statusSlideNextBtn").onclick = function() {
+      if (slideCurrentList.length > 0) {
+        slideCurrentStatusIndex = (slideCurrentStatusIndex + 1) % slideCurrentList.length;
+        openStatusSlideViewer(slideCurrentStatusIndex, slideCurrentList === [slideMyStatus]);
+      }
+    };
+    // Hide viewer when clicking outside
+    document.body.addEventListener("click", function(e) {
+      if (!document.getElementById("statusSlideViewer").contains(e.target) && !e.target.classList.contains("status-slide-list-item")) {
+        document.getElementById("statusSlideViewer").classList.remove("active");
+      }
+    });
+    // Optionally, add a button in chat header to open the status slide
+    // Example: <button id="openStatusSlideBtn">Status</button>
+    // document.getElementById("openStatusSlideBtn").onclick = openStatusSlidePanel;
   </script>
 </body>
 </html>

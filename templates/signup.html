@@ -1,117 +1,257 @@
 <!DOCTYPE html>
+<!-- filepath: c:\Users\aadit\.vscode\new_chat\templates\signup.html -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Signup - Chat-by-Aaditya</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up - Chat-by-Aaditya</title>
   <style>
     body {
-      font-family: "Segoe UI", "Roboto", Arial, sans-serif;
-      background-color: #111b21;
+      background: linear-gradient(135deg, #232526 0%, #25d366 100%);
       color: #e9edef;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+      min-height: 100vh;
       margin: 0;
-    }
-    .container {
-      background: #202c33;
-      padding: 36px 40px 28px 40px;
-      border-radius: 18px;
-      box-shadow: 0 4px 32px 0 #0006;
-      min-width: 340px;
-      max-width: 95vw;
-      border: 2px solid #25d366;
-    }
-    .whatsapp-logo {
       display: flex;
+      align-items: center;
       justify-content: center;
-      margin-bottom: 18px;
+      overflow: auto;
     }
-    .whatsapp-logo svg {
-      width: 48px;
-      height: 48px;
-      display: block;
-    }
-    h2 {
-      text-align: center;
-      color: #25d366;
-      margin-bottom: 24px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-    form {
+    .signup-container {
+      background: #202c33;
+      border-radius: 18px;
+      box-shadow: 0 8px 40px #000a;
+      padding: 38px 38px 28px 38px;
+      max-width: 440px;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      align-items: stretch;
+      animation: fadein 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+      margin: 32px 0;
     }
-    input, button {
-      padding: 14px;
-      border-radius: 8px;
-      border: none;
-      font-size: 1em;
-      background: #2a3942;
-      color: #e9edef;
-      transition: background 0.2s;
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: none;}
     }
-    input {
-      border: 2px solid #222d34;
-      box-sizing: border-box;
-    }
-    input:focus {
-      border: 2px solid #25d366;
-      background: #222d34;
-      outline: none;
-    }
-    button {
-      background-color: #25d366;
-      color: #111b21;
-      font-weight: bold;
+    .signup-title {
+      font-size: 2em;
+      font-weight: 800;
+      color: #25d366;
+      margin-bottom: 18px;
+      text-align: center;
       letter-spacing: 1px;
-      cursor: pointer;
-      margin-top: 12px;
-      transition: background 0.2s;
+      text-shadow: 0 2px 8px #25d36633;
     }
-    button:hover {
-      background-color: #128c7e;
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: stretch;
+    }
+    .signup-form label {
+      font-size: 1.05em;
+      color: #b6b9bb;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+      margin-top: 2px;
+    }
+    .signup-form input {
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1.5px solid #25d366;
+      background: #232d33;
+      color: #e9edef;
+      font-size: 1em;
+      outline: none;
+      box-sizing: border-box;
+      transition: border 0.15s, background 0.15s;
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+    .signup-form input:focus {
+      border: 1.5px solid #128c7e;
+      background: #1e2c2f;
+    }
+    .signup-form button {
+      width: 100%;
+      background: #25d366;
+      color: #111b21;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 0;
+      font-weight: 700;
+      font-size: 1.08em;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      box-shadow: 0 2px 8px #25d36622;
+      letter-spacing: 1px;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .signup-form button[type="button"] {
+      background: #232d33;
+      color: #25d366;
+      border: 1.5px solid #25d366;
+      font-size: 1em;
+      font-weight: 600;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px #25d36622;
+      padding: 8px 0;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .signup-form button[type="button"]:hover {
+      background: #25d366;
+      color: #111b21;
+      border-color: #128c7e;
+    }
+    .signup-form button[type="submit"] {
+      margin-top: 12px;
+      margin-bottom: 10px;
+      font-size: 1.13em;
+      letter-spacing: 1.2px;
+    }
+    .signup-form button[type="submit"]:hover {
+      background: #128c7e;
       color: #fff;
     }
-    .error {
+    #otpStatus {
+      margin-bottom: 0;
+      margin-top: 0;
+      text-align: left;
+      font-size: 0.98em;
+      font-weight: 600;
+      color: #25d366;
+      display: none;
+    }
+    .signup-msg {
       color: #ff6b6b;
-      margin: 12px 0 0;
+      margin-bottom: 10px;
+      font-size: 1em;
       text-align: center;
+      font-weight: 500;
     }
-    a {
-      color: #8ab4f8;
+    .signup-link {
+      color: #25d366;
+      text-align: center;
+      margin-top: 10px;
+      display: block;
       text-decoration: none;
+      font-size: 1em;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
-    .footer-link {
-      text-align: center;
-      margin-top: 18px;
+    .signup-link:hover {
+      text-decoration: underline;
+      color: #128c7e;
+    }
+    @media (max-width: 600px) {
+      .signup-container {
+        max-width: 98vw;
+        padding: 18px 4vw 12px 4vw;
+        border-radius: 0;
+        margin: 12px 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="whatsapp-logo">
-      <svg viewBox="0 0 48 48"><g><circle fill="#25d366" cx="24" cy="24" r="24"/><path fill="#fff" d="M36.1 32.2c-.5-.2-2.9-1.4-3.3-1.6-.4-.2-.7-.2-1 .2-.3.4-1.1 1.6-1.4 1.9-.3.3-.5.4-1 .1-.5-.2-2.1-.8-4-2.6-1.5-1.3-2.6-2.9-2.9-3.4-.3-.5 0-.7.2-.9.2-.2.5-.6.7-.9.2-.3.2-.5.3-.8.1-.3 0-.6-.1-.8-.1-.2-1-2.4-1.4-3.3-.4-.9-.7-.8-1-.8-.3 0-.6 0-.9 0-.3 0-.8.1-1.2.6-.4.5-1.6 1.6-1.6 3.8 0 2.2 1.6 4.3 1.8 4.6.2.3 3.1 4.7 7.6 6.3.8.3 1.4.5 1.9.6.8.2 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.6.3-.8.3-1.5.2-1.6z"/></g></svg>
-    </div>
-    <h2>Create your account</h2>
-    <form method="POST" action="/signup">
-      <input type="text" name="nickname" placeholder="Nickname (optional)" />
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="text" name="name" placeholder="Full Name" required />
-      <input type="text" name="mobile" placeholder="Mobile Number" pattern="[0-9]{10,15}" title="Enter a valid mobile number" required />
-      <input type="text" name="username" placeholder="Username" required autocomplete="username" />
-      <input type="password" name="password" placeholder="Password" required autocomplete="new-password" minlength="6" />
-      <button type="submit">Create Account</button>
-    </form>
+  <div class="signup-container">
+    <div class="signup-title">Create Your Account</div>
     {% if error %}
-      <p class="error">{{ error }}</p>
+      <div class="signup-msg">{{ error }}</div>
     {% endif %}
-    <div class="footer-link">
-      Already have an account? <a href="{{ url_for('login') }}">Login here</a>
-    </div>
+    <form class="signup-form" method="post" autocomplete="off">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required>
+      <label for="nickname">Nickname</label>
+      <input type="text" name="nickname" id="nickname">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required>
+      <button type="button" id="sendOtpBtn">Send OTP</button>
+      <label for="otp">OTP</label>
+      <input type="text" name="otp" id="otp" maxlength="6" pattern="\d{6}" required>
+      <button type="button" id="verifyOtpBtn">Verify OTP</button>
+      <span id="otpStatus"></span>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" minlength="4" required>
+      <label for="name">Full Name</label>
+      <input type="text" name="name" id="name">
+      <label for="mobile">Mobile</label>
+      <input type="text" name="mobile" id="mobile">
+      <button type="submit">Sign Up</button>
+    </form>
+    <a href="/" class="signup-link">Back to Login</a>
   </div>
+  <script>
+    // Send OTP AJAX
+    document.getElementById("sendOtpBtn").onclick = function() {
+      const email = document.getElementById("email").value.trim();
+      if (!email) {
+        alert("Enter your email first.");
+        return;
+      }
+      this.disabled = true;
+      this.textContent = "Sending...";
+      fetch("/send_otp", {
+        method: "POST",
+        body: new URLSearchParams({ email })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("OTP sent to your email.");
+        } else {
+          alert(data.error || "Failed to send OTP.");
+        }
+        this.disabled = false;
+        this.textContent = "Send OTP";
+      })
+      .catch(() => {
+        alert("Failed to send OTP.");
+        this.disabled = false;
+        this.textContent = "Send OTP";
+      });
+    };
+
+    // Verify OTP AJAX
+    document.getElementById("verifyOtpBtn").onclick = function() {
+      const email = document.getElementById("email").value.trim();
+      const otp = document.getElementById("otp").value.trim();
+      const statusSpan = document.getElementById("otpStatus");
+      if (!email || !otp) {
+        statusSpan.style.display = "block";
+        statusSpan.style.color = "#ff6b6b";
+        statusSpan.textContent = "Enter email and OTP.";
+        return;
+      }
+      this.disabled = true;
+      statusSpan.style.display = "block";
+      statusSpan.style.color = "#25d366";
+      statusSpan.textContent = "Verifying...";
+      fetch("/verify_otp", {
+        method: "POST",
+        body: new URLSearchParams({ email, otp })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          statusSpan.style.color = "#25d366";
+          statusSpan.textContent = "OTP verified!";
+        } else {
+          statusSpan.style.color = "#ff6b6b";
+          statusSpan.textContent = data.error || "Invalid OTP.";
+        }
+        this.disabled = false;
+      })
+      .catch(() => {
+        statusSpan.style.color = "#ff6b6b";
+        statusSpan.textContent = "Verification failed.";
+        this.disabled = false;
+      });
+    };
+  </script>
 </body>
 </html>

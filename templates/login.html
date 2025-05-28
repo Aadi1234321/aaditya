@@ -1,103 +1,154 @@
 <!DOCTYPE html>
+<!-- filepath: c:\Users\aadit\.vscode\new_chat\templates\login.html -->
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111b21">
-  <link rel="icon" href="/favicon.png" type="image/png">
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - Chat-by-Aaditya</title>
   <style>
     body {
-      margin: 0;
-      font-family: "Segoe UI", "Roboto", Arial, sans-serif;
-      height: 100vh;
-      background-color: #111b21;
+      background: linear-gradient(135deg, #232526 0%, #25d366 100%);
       color: #e9edef;
+      font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: auto;
     }
-    .container {
+    .login-container {
       background: #202c33;
-      padding: 32px 36px 28px 36px;
-      border-radius: 16px;
-      box-shadow: 0 4px 32px 0 #0006;
-      min-width: 340px;
-      max-width: 95vw;
-    }
-    h2 {
-      text-align: center;
-      color: #25d366;
-      margin-bottom: 24px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-    .whatsapp-logo {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 18px;
-    }
-    .whatsapp-logo svg {
-      width: 48px;
-      height: 48px;
-      display: block;
-    }
-    input, button {
-      margin: 10px 0;
-      padding: 14px;
+      border-radius: 18px;
+      box-shadow: 0 8px 40px #000a;
+      padding: 38px 38px 28px 38px;
+      max-width: 400px;
       width: 100%;
-      border-radius: 8px;
-      border: none;
-      font-size: 1em;
-      background: #2a3942;
-      color: #e9edef;
-      transition: background 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      animation: fadein 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+      margin: 32px 0;
     }
-    input:focus {
-      background: #222d34;
-      outline: 2px solid #25d366;
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: none;}
     }
-    button {
-      background-color: #25d366;
-      color: #111b21;
-      font-weight: bold;
+    .login-title {
+      font-size: 2em;
+      font-weight: 800;
+      color: #25d366;
+      margin-bottom: 18px;
+      text-align: center;
       letter-spacing: 1px;
-      cursor: pointer;
-      margin-top: 18px;
-      transition: background 0.2s;
+      text-shadow: 0 2px 8px #25d36633;
     }
-    button:hover {
-      background-color: #128c7e;
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: stretch;
+    }
+    .login-form label {
+      font-size: 1.05em;
+      color: #b6b9bb;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+      margin-top: 2px;
+    }
+    .login-form input {
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1.5px solid #25d366;
+      background: #232d33;
+      color: #e9edef;
+      font-size: 1em;
+      outline: none;
+      box-sizing: border-box;
+      transition: border 0.15s, background 0.15s;
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+    .login-form input:focus {
+      border: 1.5px solid #128c7e;
+      background: #1e2c2f;
+    }
+    .login-form button {
+      width: 100%;
+      background: #25d366;
+      color: #111b21;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 0;
+      font-weight: 700;
+      font-size: 1.08em;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      box-shadow: 0 2px 8px #25d36622;
+      letter-spacing: 1px;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .login-form button[type="submit"]:hover {
+      background: #128c7e;
       color: #fff;
     }
-    .error {
+    .login-msg {
       color: #ff6b6b;
-      margin: 12px 0 0;
+      margin-bottom: 10px;
+      font-size: 1em;
       text-align: center;
+      font-weight: 500;
     }
-    a {
-      color: #8ab4f8;
+    .login-link {
+      color: #25d366;
+      text-align: center;
+      margin-top: 10px;
+      display: block;
       text-decoration: none;
+      font-size: 1em;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .login-link:hover {
+      text-decoration: underline;
+      color: #128c7e;
+    }
+    @media (max-width: 600px) {
+      .login-container {
+        max-width: 98vw;
+        padding: 18px 4vw 12px 4vw;
+        border-radius: 0;
+        margin: 12px 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="whatsapp-logo">
-      <svg viewBox="0 0 48 48"><g><circle fill="#25d366" cx="24" cy="24" r="24"/><path fill="#fff" d="M36.1 32.2c-.5-.2-2.9-1.4-3.3-1.6-.4-.2-.7-.2-1 .2-.3.4-1.1 1.6-1.4 1.9-.3.3-.5.4-1 .1-.5-.2-2.1-.8-4-2.6-1.5-1.3-2.6-2.9-2.9-3.4-.3-.5 0-.7.2-.9.2-.2.5-.6.7-.9.2-.3.2-.5.3-.8.1-.3 0-.6-.1-.8-.1-.2-1-2.4-1.4-3.3-.4-.9-.7-.8-1-.8-.3 0-.6 0-.9 0-.3 0-.8.1-1.2.6-.4.5-1.6 1.6-1.6 3.8 0 2.2 1.6 4.3 1.8 4.6.2.3 3.1 4.7 7.6 6.3.8.3 1.4.5 1.9.6.8.2 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.6.3-.8.3-1.5.2-1.6z"/></g></svg>
-    </div>
-    <h2>Login</h2>
-    <form id="loginForm" method="POST" action="/">
-      <input type="text" id="usernameInput" name="username" placeholder="Username" required autocomplete="username">
-      <input type="password" id="passwordInput" name="password" placeholder="Password" required autocomplete="current-password">
+  <div class="login-container">
+    <div class="login-title">Login</div>
+    {% if error %}
+      <div class="login-msg">{{ error }}</div>
+    {% endif %}
+    <form class="login-form" method="post" autocomplete="off">
+      <label for="username">Username / Email / Mobile</label>
+      <input type="text" name="username" id="username" required placeholder="Enter username, email or mobile">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" minlength="4" required>
       <button type="submit">Login</button>
     </form>
-    <div style="text-align:center;margin-top:18px;">
-      Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>
-    </div>
-    {% if error %}
-      <p class="error">{{ error }}</p>
-    {% endif %}
+    <a href="/signup" class="login-link">Create an account</a>
+    <a href="/forgot_password" class="login-link" id="forgotPwdLink">Forgot password?</a>
   </div>
+  <script>
+    // Optional: Show forgot password page in a modal (or just redirect)
+    document.getElementById("forgotPwdLink").onclick = function(e) {
+      // You can use a modal here if you want, or just let it redirect.
+      // For now, just let it redirect (default behavior).
+      // e.preventDefault();
+      // window.location.href = "/forgot_password";
+    };
+  </script>
 </body>
 </html>
